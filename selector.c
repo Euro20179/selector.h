@@ -199,7 +199,6 @@ int process_char(selector* s, char ch)
     // ctrl-c
     case 0x03:
     // enter
-    case '\x7F':
     case '\r':
     case 'q':
         return 1;
