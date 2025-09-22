@@ -42,6 +42,10 @@ typedef struct {
 
     //state
     bool searching;
+    string* current_search;
+    array* visible_items;
+
+    size_t* item_ids;
 } selector;
 
 ///allocates a new selector
