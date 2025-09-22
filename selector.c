@@ -24,7 +24,8 @@ selector_id_t get_id_from_selected(selector* s)
     for (int i = 0; i < array_len(s->items); i++) {
         if (s->item_ids[i] != -1) {
             passed++;
-            if (passed == s->selected) {
+            //passed is 1-index, selected is 0 index
+            if (passed - 1 == s->selected) {
                 return s->item_ids[i];
             }
         }
