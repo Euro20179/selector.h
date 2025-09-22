@@ -18,14 +18,18 @@ void clear_rect(int top, int left, int bottom, int right)
     printf("\x1b[%d;%d;%d;%d$z", top, left, bottom, right);
 }
 
-selector_id_t get_id_from_selected(selector* s)
+selector_id_t get_id_from_selected(selector* s, size_t selected)
 {
+    if (selected == -1) {
+        selected = s->selected;
+    }
+
     size_t passed = 0;
     for (int i = 0; i < array_len(s->items); i++) {
         if (s->item_ids[i] != -1) {
             passed++;
             //passed is 1-index, selected is 0 index
-            if (passed - 1 == s->selected) {
+            if (passed - 1 == selected) {
                 return s->item_ids[i];
             }
         }
@@ -64,7 +68,7 @@ void draw(selector* s)
 
         struct selector_preview_info info = {
             .width = preview_area_width,
-            .id = get_id_from_selected(s),
+            .id = get_id_from_selected(s, -1),
         };
         string* toprint = (*s->preview_gen)(info);
 
@@ -247,5 +251,6 @@ void selector_del2(selector* s)
 
 const char* selector_get_by_id(selector* s, selector_id_t id)
 {
-    return *(const char**)array_at(s->items, id);
+    size_t real_id = get_id_from_selected(s, id);
+    return *(const char**)array_at(s->items, real_id);
 }
