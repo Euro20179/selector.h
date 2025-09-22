@@ -11,10 +11,12 @@ void get_termsize(struct winsize* out) {
     ioctl(0, TIOCGWINSZ, out);
 }
 
+void clear_rect(int top, int left, int bottom, int right) {
+    printf("\x1b[%d;%d;%d;%d$z", top, left, bottom, right);
+}
+
 void draw(selector* s)
 {
-    printf("\x1b[0H\x1b[2J");
-
     struct winsize size;
     get_termsize(&size);
     s->width = size.ws_col;
@@ -36,7 +38,8 @@ void draw(selector* s)
 
     if (s->preview_gen != NULL) {
         printf("\x1b[s");
-        printf("\x1b[%d`", text_area_width + 1);
+        clear_rect(1, text_area_width + 1, s->height, s->width);
+        printf("\x1b[%d;%dH", 1, text_area_width + 1);
         struct selector_preview_info info = {
             .width = preview_area_width,
             .id = s->selected
@@ -68,6 +71,7 @@ void draw(selector* s)
             printf("\x1b[32m");
         }
 
+        clear_rect(i + 1, 1, i + 2, text_area_width);
         printf(
             "\x1b[%d;%dH%-.*s", i + 1, 1,
             (int)text_area_width,
