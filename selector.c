@@ -43,11 +43,14 @@ void draw(selector* s)
     int min = s->height > count ? count : s->height;
 
     int bottom_gap = 1;
+    if(min != s->height) {
+        bottom_gap = 0;
+    }
 
     int offset = 0;
     // add one because selected is 0-index, height is 1-index
-    if (s->selected >= s->height - (1 + bottom_gap)) {
-        offset = (s->selected + (1 + bottom_gap)) - s->height;
+    if (s->selected >= min - (1 + bottom_gap)) {
+        offset = (s->selected + (1 + bottom_gap)) - min;
     }
 
     int text_area_width = s->width / 2;
