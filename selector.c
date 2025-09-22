@@ -23,9 +23,12 @@ void draw(selector* s)
     int count = array_len(s->items);
     int min = s->height > count ? count : s->height;
 
+    int bottom_gap = 1;
+
     int offset = 0;
-    if (s->selected >= s->height - 2) {
-        offset = (s->selected + 2) - s->height;
+    //add one because selected is 0-index, height is 1-index
+    if (s->selected >= s->height - (1 + bottom_gap)) {
+        offset = (s->selected + (1 + bottom_gap)) - s->height;
     }
 
     int text_area_width = s->width / 2;
@@ -58,7 +61,7 @@ void draw(selector* s)
         printf("\x1b[u");
     }
 
-    for (int i = 0; i < min - 1; i++) {
+    for (int i = 0; i < min - bottom_gap; i++) {
         int realPos = i + offset;
 
         if (realPos == s->selected) {
@@ -66,10 +69,10 @@ void draw(selector* s)
         }
 
         printf(
-            "%-.*s",
+            "\x1b[%d;%dH%-.*s", i + 1, 1,
             (int)text_area_width,
             *(const char**)array_at(s->items, realPos));
-        printf("\x1b[%d`|\r\n", text_area_width);
+        printf("\x1b[%d`|", text_area_width);
         if (realPos == s->selected) {
             printf("\x1b[0m");
         }
@@ -85,6 +88,8 @@ selector* selector_new2(struct selector_action_handlers handlers, array* items)
     s->height = 5;
     s->width = 80;
     s->selected = 0;
+
+    s->searching = 0;
     return s;
 }
 
