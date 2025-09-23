@@ -15,12 +15,16 @@ The current events are:
 - `on_hover(selector_id_t)`
 - `preview_gen(struct selector_preview_info)`
 
+───────────────────────────────────────────────────────────────────────────────
+                                   = Events =
+
 == on_hover ==
-UNIMPLEMENTED
+    UNIMPLEMENTED
 
 == preview_gen ==
-a function that returns a newly allocated string that contains what should be
-printed in the preview.
+    a function that returns a newly allocated string that contains what
+    should be printed in the preview.
 
-`struct selector_preview_info` contains information about the current state.
+    `struct selector_preview_info` contains information about
+    the current state.
 
