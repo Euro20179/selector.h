@@ -1,0 +1,26 @@
+                                 = selector.h =
+───────────────────────────────────────────────────────────────────────────────
+
+A simple library to open a selection screen where the user can select an item
+
+───────────────────────────────────────────────────────────────────────────────
+                                   = Usage =
+
+call `selector_new2()` with a `struct selector_action_handlers`.
+call `selector_del2()` on completion.
+
+`struct selector_action_handlers` contains function pointers for event handlers.
+
+The current events are:
+- `on_hover(selector_id_t)`
+- `preview_gen(struct selector_preview_info)`
+
+== on_hover ==
+UNIMPLEMENTED
+
+== preview_gen ==
+a function that returns a newly allocated string that contains what should be
+printed in the preview.
+
+`struct selector_preview_info` contains information about the current state.
+
