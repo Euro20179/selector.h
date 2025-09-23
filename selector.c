@@ -4,9 +4,16 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+#include <signal.h>
 
 #include "../euro/array.h"
 #include "selector.h"
+
+static struct termios old;
+
+void clean_up(int sig) {
+    tcsetattr(0, TCSADRAIN, &old);
+}
 
 void get_termsize(struct winsize* out)
 {
@@ -212,7 +219,6 @@ int process_char(selector* s, char ch)
 
 selector_id_t selector_select(selector* s)
 {
-    struct termios old;
     tcgetattr(0, &old);
     struct termios new = old;
 
@@ -221,7 +227,16 @@ selector_id_t selector_select(selector* s)
     new.c_lflag = ~(ECHO | ICANON);
 
     tcsetattr(0, TCSANOW, &new);
-    printf("\x1b[?1049h\x1b[0H");
+
+    signal(SIGSEGV, clean_up);
+    signal(SIGINT, clean_up);
+    signal(SIGFPE, clean_up);
+    signal(SIGTERM, clean_up);
+    signal(SIGABRT, clean_up);
+    signal(SIGABRT, clean_up);
+    signal(SIGILL, clean_up);
+
+    printf("\x1b[?1049h\x1b[0H\x1b[2J");
 
     draw(s);
 
