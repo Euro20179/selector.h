@@ -46,10 +46,18 @@ selector_id_t get_id_from_selected(selector* s, size_t selected)
 
 void draw(selector* s)
 {
+
+    size_t ow = s->width;
+    size_t oh = s->height;
+
     struct winsize size;
     get_termsize(&size);
     s->width = size.ws_col;
     s->height = size.ws_row;
+
+    if(s->width != ow || s->height != oh) {
+        printf("\x1b[0H\x1b[2J");
+    }
 
     int count = array_len(s->visible_items);
     int min = s->height > count ? count : s->height;
