@@ -12,8 +12,8 @@ selector_get_by_id will get an item by selector_id_t id from the provided items 
 
 #include <stddef.h>
 #include <stdbool.h>
-#include "../euro/array.h"
-#include "../euro/string.h"
+#include "./c-stdlib/array.h"
+#include "./c-stdlib/string.h"
 
 typedef size_t selector_id_t;
 

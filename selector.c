@@ -6,7 +6,7 @@
 #include <termios.h>
 #include <signal.h>
 
-#include "../euro/array.h"
+#include "./c-stdlib/array.h"
 #include "selector.h"
 
 static struct termios old;

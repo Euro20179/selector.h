@@ -1,0 +1,3 @@
+[submodule "c-stdlib"]
+	path = c-stdlib
+	url = https://github.com/euro20179/c-stdlib
