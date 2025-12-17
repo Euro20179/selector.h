@@ -1,0 +1,4 @@
+#!/bin/sh
+gcc -fPIC -c ./*.c
+gcc -shared -o libselector.so ./*.o
+rm ./*.o
