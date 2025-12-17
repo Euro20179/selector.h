@@ -211,12 +211,13 @@ int process_char(selector* s, char ch)
     case 'G':
         s->selected = array_len(s->visible_items) - 1;
         break;
-    // ctrl-c
-    case 0x03:
     // enter
     case '\r':
-    case 'q':
         return 1;
+    // ctrl-c
+    case 0x03:
+    case 'q':
+        return 2;
     case '/':
         string_clear(s->current_search);
         s->searching = 1;
@@ -225,7 +226,7 @@ int process_char(selector* s, char ch)
     return 0;
 }
 
-selector_id_t selector_select(selector* s)
+selector_id_t selector_select(selector* s, int* exit_code)
 {
     tcgetattr(0, &old);
     struct termios new = old;
@@ -250,7 +251,7 @@ selector_id_t selector_select(selector* s)
 
     char ch;
     while ((ch = getchar()) != 0) {
-        if (process_char(s, ch) == 1) {
+        if ((*exit_code = process_char(s, ch)) > 0) {
             goto done;
         }
         draw(s);

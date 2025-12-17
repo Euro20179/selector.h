@@ -56,8 +56,12 @@ selector* selector_new2(struct selector_action_handlers, array*);
 void selector_del2(selector*);
 
 ///open the selection screen for the user to select an item
+///puts the exit code into the 2nd out parameter
+///exit codes:
+/// 2: ctrl-c or q
+/// 1: enter
 ///RETURNS: the id of the selected item
-selector_id_t selector_select(selector*);
+selector_id_t selector_select(selector*, int*);
 
 ///gets an item from the provided items by id
 const char* selector_get_by_id(selector*, selector_id_t);
