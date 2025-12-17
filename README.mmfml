@@ -3,6 +3,16 @@
 
 A simple library to open a selection screen where the user can select an item
 
+== Install ==
+>sh
+./mkso
+sudo cp ./libselector.so /usr/lib
+<
+OR
+>
+yay -S selector.h-git
+<
+
 ───────────────────────────────────────────────────────────────────────────────
                                    = Usage =
 
